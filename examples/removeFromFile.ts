@@ -1,4 +1,5 @@
-import { RemoveBgError, removeBackgroundFromImageFile } from "remove.bg";
+import { removeBackgroundFromImageFile, RemoveBgError } from "remove.bg";
+import { RemoveBgResult } from "../index";
 
 const apiKeyFile = require("./_test_apikey.json");
 if (!apiKeyFile || !apiKeyFile.apiKey) {
@@ -6,21 +7,19 @@ if (!apiKeyFile || !apiKeyFile.apiKey) {
 }
 
 async function removeBgFromLocalFile(path) {
-  try {
-    const outputFile = `${__dirname}/out/img-removed-from-file.png`;
-    const result = await removeBackgroundFromImageFile({
-      path,
-      apiKey: apiKeyFile.apiKey,
-      size: "regular",
-      outputFile
-    });
-
+  const outputFile = `${__dirname}/out/img-removed-from-file.png`;
+  removeBackgroundFromImageFile({
+    path,
+    apiKey: apiKeyFile.apiKey,
+    size: "regular",
+    outputFile
+  }).then((result: RemoveBgResult) => {
     console.log(`File saved to ${outputFile}`);
     console.log(result.base64img.substring(0, 40) + "..");
-  } catch (e) {
-    const errors: Array<RemoveBgError> = e;
+  }).catch((errors: Array<RemoveBgError>) => {
     console.log(JSON.stringify(errors));
-  }
+  });
+
   return null;
 }
 
