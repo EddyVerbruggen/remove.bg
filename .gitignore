@@ -1,0 +1,8 @@
+.idea
+.vscode
+node_modules
+dist
+*.js
+*.d.ts
+examples/_test_apikey.json
+examples/out

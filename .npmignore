@@ -1,0 +1,7 @@
+.idea
+.vscode
+src
+examples
+tsconfig.json
+README.md
+index.ts
