@@ -1,6 +1,6 @@
 {
   "name": "remove.bg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple wrapper for the remove.bg API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,17 +13,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/remove-bg/remove.bg.git"
+    "url": "git+https://github.com/EddyVerbruggen/remove.bg.git"
   },
   "keywords": [
-    "remove.bg"
+    "remove.bg",
+    "remove background",
+    "image processing",
+    "background image"
   ],
   "author": "Eddy Verbruggen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/remove-bg/remove.bg/issues"
+    "url": "https://github.com/EddyVerbruggen/remove.bg/issues"
   },
-  "homepage": "https://github.com/remove-bg/remove.bg#readme",
+  "homepage": "https://github.com/EddyVerbruggen/remove.bg#readme",
   "dependencies": {
     "request": "^2.88.0",
     "unirest": "~0.5.1"

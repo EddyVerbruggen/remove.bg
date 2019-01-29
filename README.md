@@ -16,7 +16,7 @@ The **AWESOME** remove.bg API is quite easy to use, but it can always be easier 
 
 ## Requirements
 Get your API key from the [remove.bg website](https://www.remove.bg/api).
-At the moment it's easly access, so it may tike some time to get yours.
+At the moment it's early access, so it may take some time to get yours.
 
 ## Installation
 
@@ -27,7 +27,7 @@ npm i remove.bg
 ## Examples
 Look at the various `removeFrom*.ts` files in the [examples folder](/examples), or check out the snippets below.
 
-Curious how to use `async/await`? Another reason to check out those examples.
+Curious how to use `async/await`? That's another reason to check out those examples.
 
 ## API
 The common **input parameters** of all three currently supported `removeBackgroundFrom*` functions are:
@@ -38,7 +38,7 @@ The common **input parameters** of all three currently supported `removeBackgrou
 | size | N | `"regular"` / `"hd"` | The returned size of the image. The cheaper `"regular"` option is default. |
 | outputFile | N | `string` | The path to save the file returned by the API. |
 
-And the **output parameters** are:
+And the **output properties** are:
 
 | Property  | Type | Description |
 | --- | --- | --- |
