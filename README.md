@@ -35,7 +35,7 @@ The common **input parameters** of all three currently supported `removeBackgrou
 | Property | Mandatory | Type | Description |
 | --- | --- | --- | --- |
 | apiKey | Y | `string` | The API key you got from the [remove.bg website](https://www.remove.bg/api). |
-| size | N | `"regular"` / `"hd"` | The returned size of the image. The cheaper `"regular"` option is default. |
+| size | N | `"regular"` / `"hd"` / `"4k"` | The returned size of the image. The cheaper `"regular"` option is default. |
 | outputFile | N | `string` | The path to save the file returned by the API. |
 
 And the **output properties** are:
@@ -43,6 +43,7 @@ And the **output properties** are:
 | Property  | Type | Description |
 | --- | --- | --- |
 | base64img | `string` | Base64 encoded representation of the returned image.
+| creditsCharged | `number` | Amount of credits charged for this call, based on the output size of the response.
 
 ### `removeBackgroundFromImageFile`
 Remove the background from a local file.

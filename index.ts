@@ -8,9 +8,9 @@ const API_KEY_HEADER = "X-Api-Key";
 interface RemoveBgOptions {
   apiKey: string;
   /**
-   * Default "regular", which costs 1 credit. "hd" costs 5.
+   * Default "regular", which costs 1 credit. "hd" costs 5. "4k" costs 8.
    */
-  size?: "regular" | "hd"
+  size?: "regular" | "hd" | "4k"
   outputFile?: string;
 }
 
@@ -28,6 +28,7 @@ export interface RemoveBgFileOptions extends RemoveBgOptions {
 
 export interface RemoveBgResult {
   base64img: string;
+  creditsCharged: number;
 }
 
 export interface RemoveBgError {
@@ -81,7 +82,8 @@ async function processResult(result, options: RemoveBgOptions, resolve, reject) 
       fs.writeFileSync(options.outputFile, result.body.data.result_b64, {encoding: "base64"});
     }
     resolve(<RemoveBgResult>{
-      base64img: result.body.data.result_b64
+      base64img: result.body.data.result_b64,
+      creditsCharged: result.headers["x-credits-charged"]
     });
   } else {
     reject(<Array<RemoveBgError>>(result.body.errors ? result.body.errors : result.body));

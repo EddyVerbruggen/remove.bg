@@ -16,6 +16,7 @@ async function removeFromImgUrl(url) {
     });
 
     console.log(`File saved to ${outputFile}`);
+    console.log(`${result.creditsCharged} credit(s) charged for this image`);
     console.log(result.base64img.substring(0, 40) + "..");
   } catch (e) {
     const errors: Array<RemoveBgError> = e;
@@ -24,4 +25,4 @@ async function removeFromImgUrl(url) {
   return null;
 }
 
-removeFromImgUrl("https://firebasestorage.googleapis.com/v0/b/foorball-player-ratings.appspot.com/o/profilepics%2FEcyn4Sf4iZfuExtPGWfXyyu4sGE3.jpg?alt=media&token=1b7f429a-71fc-49dd-9103-96ef87941d75");
+removeFromImgUrl("https://samarew.com/wp-content/uploads/2018/05/obama2.jpg");

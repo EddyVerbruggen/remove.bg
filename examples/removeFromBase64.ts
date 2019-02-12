@@ -18,6 +18,7 @@ async function removeBgFromBase64(path) {
     });
 
     console.log(`File saved to ${outputFile}`);
+    console.log(`${result.creditsCharged} credit(s) charged for this image`);
     console.log(result.base64img.substring(0, 40) + "..");
   } catch (e) {
     const errors: Array<RemoveBgError> = e;
