@@ -29,7 +29,7 @@
   "homepage": "https://github.com/EddyVerbruggen/remove.bg#readme",
   "dependencies": {
     "request": "^2.88.0",
-    "unirest": "~0.5.1"
+    "unirest": "~0.6.0"
   },
   "devDependencies": {
     "@types/node": "^10.12.18",
