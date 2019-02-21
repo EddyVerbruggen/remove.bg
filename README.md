@@ -36,7 +36,7 @@ The common **input parameters** of all three currently supported `removeBackgrou
 | --- | --- | --- | --- |
 | apiKey | Y | `string` | The API key you got from the [remove.bg website](https://www.remove.bg/api). |
 | size | N | `"regular"` / `"hd"` / `"4k"` | The returned size of the image. The cheaper `"regular"` option is default. |
-| outputFile | N | `string` | The path to save the file returned by the API. |
+| outputFile | N | `string` | The path to save the returned file to. |
 
 And the **output properties** are:
 
