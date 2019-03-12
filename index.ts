@@ -8,9 +8,13 @@ const API_KEY_HEADER = "X-Api-Key";
 interface RemoveBgOptions {
   apiKey: string;
   /**
-   * Default "regular", which costs 1 credit. "hd" costs 5. "4k" costs 8.
+   * Output resolution.
+   * "regular" default (up to 0.25 megapixels), which costs 1 credit.
+   * "medium" (up to 1.5 megapixels) costs 3.
+   * "hd" (up to 4 megapixels) costs 5.
+   * "4k" (up to 10 megapixels) costs 8.
    */
-  size?: "regular" | "hd" | "4k"
+  size?: "regular" | "medium" | "hd" | "4k"
   outputFile?: string;
 }
 
@@ -29,6 +33,8 @@ export interface RemoveBgFileOptions extends RemoveBgOptions {
 export interface RemoveBgResult {
   base64img: string;
   creditsCharged: number;
+  resultWidth: number;
+  resultHeight: number;
 }
 
 export interface RemoveBgError {
@@ -83,7 +89,9 @@ async function processResult(result, options: RemoveBgOptions, resolve, reject) 
     }
     resolve(<RemoveBgResult>{
       base64img: result.body.data.result_b64,
-      creditsCharged: result.headers["x-credits-charged"]
+      creditsCharged: result.headers["x-credits-charged"],
+      resultWidth: result.headers["x-width"],
+      resultHeight: result.headers["x-height"]
     });
   } else {
     reject(<Array<RemoveBgError>>(result.body.errors ? result.body.errors : result.body));

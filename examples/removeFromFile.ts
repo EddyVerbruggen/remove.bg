@@ -16,6 +16,7 @@ async function removeBgFromLocalFile(path) {
   }).then((result: RemoveBgResult) => {
     console.log(`File saved to ${outputFile}`);
     console.log(`${result.creditsCharged} credit(s) charged for this image`);
+    console.log(`Result width x height: ${result.resultWidth} x ${result.resultHeight}`);
     console.log(result.base64img.substring(0, 40) + "..");
   }).catch((errors: Array<RemoveBgError>) => {
     console.log(JSON.stringify(errors));
