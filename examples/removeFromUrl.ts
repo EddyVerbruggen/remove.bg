@@ -12,12 +12,13 @@ async function removeFromImgUrl(url) {
       url,
       apiKey: apiKeyFile.apiKey,
       size: "regular",
+      type: "product",
       outputFile
     });
 
     console.log(`File saved to ${outputFile}`);
     console.log(`${result.creditsCharged} credit(s) charged for this image`);
-    console.log(`Result width x height: ${result.resultWidth} x ${result.resultHeight}`);
+    console.log(`Result width x height: ${result.resultWidth} x ${result.resultHeight}, type: ${result.detectedType}`);
     console.log(result.base64img.substring(0, 40) + "..");
   } catch (e) {
     const errors: Array<RemoveBgError> = e;
@@ -26,4 +27,5 @@ async function removeFromImgUrl(url) {
   return null;
 }
 
-removeFromImgUrl("https://samarew.com/wp-content/uploads/2018/05/obama2.jpg");
+// removeFromImgUrl("https://samarew.com/wp-content/uploads/2018/05/obama2.jpg");
+removeFromImgUrl("https://www.ikea.com/ca/en/images/products/ypperlig-vase-brown__0505227_PE633784_S4.JPG");

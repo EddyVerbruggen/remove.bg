@@ -7,6 +7,7 @@ const API_KEY_HEADER = "X-Api-Key";
 
 interface RemoveBgOptions {
   apiKey: string;
+
   /**
    * Output resolution.
    * "regular" default (up to 0.25 megapixels), which costs 1 credit.
@@ -14,7 +15,14 @@ interface RemoveBgOptions {
    * "hd" (up to 4 megapixels) costs 5.
    * "4k" (up to 10 megapixels) costs 8.
    */
-  size?: "regular" | "medium" | "hd" | "4k"
+  size?: "regular" | "medium" | "hd" | "4k";
+
+  /**
+   * Help the API a little by telling the type of image you want to extract the background from.
+   * Defaults to "auto".
+   */
+  type?: "auto" | "person" | "product";
+
   outputFile?: string;
 }
 
@@ -33,6 +41,7 @@ export interface RemoveBgFileOptions extends RemoveBgOptions {
 export interface RemoveBgResult {
   base64img: string;
   creditsCharged: number;
+  detectedType: "product" | "person";
   resultWidth: number;
   resultHeight: number;
 }
@@ -48,7 +57,8 @@ export function removeBackgroundFromImageUrl(options: RemoveBgUrlOptions): Promi
         .header("Content-Type", "application/json")
         .send({
           "image_url": options.url,
-          "size": options.size || "regular"
+          "size": options.size || "regular",
+          "type": options.type || "auto"
         })
         .end(result => processResult(result, options, resolve, reject));
   });
@@ -58,6 +68,7 @@ export async function removeBackgroundFromImageFile(options: RemoveBgFileOptions
   return new Promise<RemoveBgResult>((resolve, reject) => {
     getPost(options)
         .field("size", options.size || "regular")
+        .field("type", options.type || "auto")
         .attach("image_file", fs.createReadStream(options.path))
         .end(result => processResult(result, options, resolve, reject));
   });
@@ -69,7 +80,8 @@ export function removeBackgroundFromImageBase64(options: RemoveBgBase64Options):
         .header("Content-Type", "application/json")
         .send({
           "image_file_b64": options.base64img,
-          "size": options.size || "regular"
+          "size": options.size || "regular",
+          "type": options.type || "auto"
         })
         .end(result => processResult(result, options, resolve, reject));
   });
@@ -90,6 +102,7 @@ async function processResult(result, options: RemoveBgOptions, resolve, reject) 
     resolve(<RemoveBgResult>{
       base64img: result.body.data.result_b64,
       creditsCharged: result.headers["x-credits-charged"],
+      detectedType: result.headers["x-type"],
       resultWidth: result.headers["x-width"],
       resultHeight: result.headers["x-height"]
     });

@@ -36,6 +36,7 @@ The common **input parameters** of all three currently supported `removeBackgrou
 | --- | --- | --- | --- |
 | apiKey | Y | `string` | The API key you got from the [remove.bg website](https://www.remove.bg/api). |
 | size | N | `"regular"` / `"medium"` / `"hd"` / `"4k"` | The returned size of the image. The cheaper `"regular"` option is default. |
+| type | N | `"auto"` / `"person"` / `"product"` | Help the API a little by telling the type of image you want to extract the background from. Default `"auto"`. |
 | outputFile | N | `string` | The path to save the returned file to. |
 
 And the **output properties** are:
@@ -44,6 +45,7 @@ And the **output properties** are:
 | --- | --- | --- |
 | base64img | `string` | Base64 encoded representation of the returned image.
 | creditsCharged | `number` | Amount of credits charged for this call, based on the output size of the response.
+| detectedType | `string` | Either a `person` or a `product`.
 | resultWidth | `number` | The width of the result image, in pixels.
 | resultHeight | `number` | The height of the result image, in pixels.
 
@@ -60,6 +62,7 @@ removeBackgroundFromImageFile({
   path: localFile,
   apiKey: "YOUR-API-KEY",
   size: "regular",
+  type: "auto",
   outputFile
 }).then((result: RemoveBgResult) => {
  console.log(`File saved to ${outputFile}`);
@@ -82,6 +85,7 @@ removeBackgroundFromImageUrl({
   url,
   apiKey: "YOUR-API-KEY",
   size: "regular",
+  type: "person",
   outputFile
 }).then((result: RemoveBgResult) => {
  console.log(`File saved to ${outputFile}`);
@@ -106,6 +110,7 @@ removeBackgroundFromImageBase64({
   base64img,
   apiKey: "YOUR-API-KEY",
   size: "regular",
+  type: "product",
   outputFile
 }).then((result: RemoveBgResult) => {
  console.log(`File saved to ${outputFile}`);
