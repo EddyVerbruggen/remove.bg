@@ -27,17 +27,25 @@ npm i remove.bg
 ## Examples
 Look at the various `removeFrom*.ts` files in the [examples folder](/examples), or check out the snippets below.
 
-Curious how to use `async/await`? That's another reason to check out those examples.
-
 ## API
 The common **input parameters** of all three currently supported `removeBackgroundFrom*` functions are:
 
-| Property | Mandatory | Type | Description |
-| --- | --- | --- | --- |
-| apiKey | Y | `string` | The API key you got from the [remove.bg website](https://www.remove.bg/api). |
-| size | N | `"regular"` / `"medium"` / `"hd"` / `"4k"` | The returned size of the image. The cheaper `"regular"` option is default. |
-| type | N | `"auto"` / `"person"` / `"product"` | Help the API a little by telling the type of image you want to extract the background from. Default `"auto"`. |
-| outputFile | N | `string` | The path to save the returned file to. |
+Only the `apiKey` property is mandatory.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| apiKey | `string` | The API key you got from the [remove.bg website](https://www.remove.bg/api).
+| size | `"preview"` (or `"small"` / `"regular"`) / `"full"` (or `"4k"`) / `"medium"` / `"hd"` / `"auto"` | The returned size of the image. The cheaper `"preview"` option is default, while `"auto"` uses the highest available resolution (based on image size and available credits.
+| type | `"auto"` / `"person"` / `"product"` / `"car"` | Help the API a little by telling the type of image you want to extract the background from. Default `"auto"`.
+| format | `"auto"` / `"png"` / `"jpg"` / `"zip"` | Result image format, the default is `"auto"` which produces a `.png` if transparentcy is detected and `.jpg` otherwise.
+| scale | `string` | Scales the subject relative to the total image size. Can be any value from `"10%"` to `"100%"`, or `"original"` (default). Scaling the subject implies "position=center" (unless specified otherwise).
+| position | `string` | Positions the subject within the image canvas. Can be "original" (default unless "scale" is given), "center" (default when "scale" is given) or a value from "0%" to "100%" (both horizontal and vertical) or two values (horizontal, vertical).
+| crop | `boolean` | Whether to crop off all empty regions (default: `false`). Note that cropping has no effect on the amount of charged credits.
+| crop_margin | `string` | Adds a margin around the cropped subject (default: `0`). Can be an absolute value (e.g. `"30px"`) or relative to the subject size (e.g. `"10%"`). Can be a single value (all sides), two values (top/bottom and left/right) or four values (top, right, bottom, left). This parameter only has an effect when `crop` is `true`.
+| roi | `string` | Region of interest: Only contents of this rectangular region can be detected as foreground. Everything outside is considered background and will be removed. The rectangle is defined as two x/y coordinates in the format `"<x1> <y1> <x2> <y2>"`. The coordinates can be in absolute pixels (suffix 'px') or relative to the width/height of the image (suffix '%'). By default, the whole image is the region of interest (`"0% 0% 100% 100%"`).
+| bg_color | `string` | Adds a solid color background. Can be a hex color code (e.g. `"81d4fa"`, `"fff"`) or a color name (e.g. `"green"`). For semi-transparency, 4-/8-digit hex codes are also supported (e.g. `"81d4fa77"`). (If this parameter is present, the other "bg_" parameters must be empty.)
+| bg_image_url | `string` | Adds a background image from a URL. The image is centered and resized to fill the canvas while preserving the aspect ratio, unless it already has the exact same dimensions as the foreground image. (If this parameter is present, the other "bg_" parameters must be empty.)
+| outputFile | `string` | The path to save the returned file to. Alternatively, you can access the result via the result object's `base64img` property (see below).
 
 And the **output properties** are:
 
@@ -45,9 +53,13 @@ And the **output properties** are:
 | --- | --- | --- |
 | base64img | `string` | Base64 encoded representation of the returned image.
 | creditsCharged | `number` | Amount of credits charged for this call, based on the output size of the response.
-| detectedType | `string` | Either a `person` or a `product`.
+| detectedType | `string` | Either `person`, `product`, `animal`, `car`, or `other`.
 | resultWidth | `number` | The width of the result image, in pixels.
 | resultHeight | `number` | The height of the result image, in pixels.
+| rateLimit | `number` | Total rate limit in megapixel images.
+| rateLimitRemaining | `number` | Remaining rate limit for this minute.
+| rateLimitReset | `number` | Unix timestamp when rate limit will reset.
+| retryAfter | `number` | Seconds until rate limit will reset (only present if rate limit exceeded).
 
 ### `removeBackgroundFromImageFile`
 Remove the background from a local file.
@@ -63,6 +75,7 @@ removeBackgroundFromImageFile({
   apiKey: "YOUR-API-KEY",
   size: "regular",
   type: "auto",
+  scale: "50%",
   outputFile
 }).then((result: RemoveBgResult) => {
  console.log(`File saved to ${outputFile}`);
@@ -70,6 +83,22 @@ removeBackgroundFromImageFile({
 }).catch((errors: Array<RemoveBgError>) => {
  console.log(JSON.stringify(errors));
 });
+```
+
+Or have a cool `async/await` example to please your inner hipster:
+
+```typescript
+async function myRemoveBgFunction(path: string, outputFile: string) {
+    const result: RemoveBgResult = await removeBackgroundFromImageFile({
+      path,
+      apiKey: "YOUR-API-KEY",
+      size: "regular",
+      type: "person",
+      crop: true,
+      scale: "50%",
+      outputFile
+    });
+}
 ```
 
 ### `removeBackgroundFromImageUrl`

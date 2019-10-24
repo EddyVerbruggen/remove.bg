@@ -8,6 +8,7 @@ if (!apiKeyFile || !apiKeyFile.apiKey) {
 
 async function removeBgFromBase64(path) {
   try {
+
     const outputFile = `${__dirname}/out/img-removed-from-base64.png`;
     const base64img = fs.readFileSync(path, { encoding: "base64" });
     const result = await removeBackgroundFromImageBase64({
@@ -23,7 +24,7 @@ async function removeBgFromBase64(path) {
     console.log(result.base64img.substring(0, 40) + "..");
   } catch (e) {
     const errors: Array<RemoveBgError> = e;
-    console.log(JSON.stringify(errors));
+    console.log("Error: " + JSON.stringify(errors));
   }
   return null;
 }
