@@ -8,5 +8,5 @@
     "strict": true,
     "noImplicitAny": false
   },
-  "files": ["index.ts"],
+  "files": ["index.ts"]
 }
