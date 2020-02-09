@@ -91,6 +91,22 @@ interface RemoveBgApiOptions {
    * (If this parameter is present, the other "bg_" parameters must be empty.)
    */
   bg_image_url?: string;
+
+  /**
+   * Request either the finalized image (`"rgba"`, default) or an alpha mask (`"alpha"`).
+   * Note: Since remove.bg also applies RGB color corrections on edges,
+   * using only the alpha mask often leads to a lower final image quality.
+   * Therefore `"rgba"` is recommended.
+   */
+  channels?: string;
+
+  /**
+   * Whether to add an artificial shadow to the result (default: `false`).
+   * NOTE: Adding shadows is currently only supported for car photos.
+   * Other subjects are returned without shadow, even if set to `true`
+   * (this might change in the future).
+   */
+  add_shadow?: boolean;
 }
 
 interface RemoveBgOptions extends RemoveBgApiOptions {
@@ -210,7 +226,9 @@ function getRequestOptions(options: RemoveBgOptions): RemoveBgApiOptions {
     "crop_margin": options.crop_margin,
     "roi": options.roi,
     "bg_color": options.bg_color,
-    "bg_image_url": options.bg_image_url
+    "bg_image_url": options.bg_image_url,
+    "channels": options.channels,
+    "add_shadow": options.add_shadow
   }
 }
 

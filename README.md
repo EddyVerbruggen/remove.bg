@@ -46,6 +46,8 @@ Only the `apiKey` property is mandatory.
 | bg_color | `string` | Adds a solid color background. Can be a hex color code (e.g. `"81d4fa"`, `"fff"`) or a color name (e.g. `"green"`). For semi-transparency, 4-/8-digit hex codes are also supported (e.g. `"81d4fa77"`). (If this parameter is present, the other "bg_" parameters must be empty.)
 | bg_image_url | `string` | Adds a background image from a URL. The image is centered and resized to fill the canvas while preserving the aspect ratio, unless it already has the exact same dimensions as the foreground image. (If this parameter is present, the other "bg_" parameters must be empty.)
 | outputFile | `string` | The path to save the returned file to. Alternatively, you can access the result via the result object's `base64img` property (see below).
+| channels | `string` | Request either the finalized image (`"rgba"`, default) or an alpha mask (`"alpha"`). Note: Since remove.bg also applies RGB color corrections on edges, using only the alpha mask often leads to a lower final image quality. Therefore `"rgba"` is recommended.
+| add_shadow | `boolean` | Whether to add an artificial shadow to the result (default: `false`). NOTE: Adding shadows is currently only supported for car photos. Other subjects are returned without shadow, even if set to `true` (this might change in the future).
 
 And the **output properties** are:
 
