@@ -111,6 +111,19 @@ interface RemoveBgApiOptions {
 
 interface RemoveBgOptions extends RemoveBgApiOptions {
   apiKey: string;
+
+  /**
+   * Optional URL of the background removal endpoint.
+   * Defaults to the REMOVE_BG_API_ENDPOINT environment variable, then to the official remove.bg endpoint.
+   * Useful for remove.bg API-compatible services, proxies and tests.
+   */
+  apiEndpoint?: string;
+
+  /**
+   * Optional extra HTTP headers sent with the request,
+   * e.g. an "Authorization" header required by such a service.
+   */
+  headers?: { [name: string]: string };
 }
 
 export interface RemoveBgUrlOptions extends RemoveBgOptions {
@@ -233,10 +246,14 @@ function getRequestOptions(options: RemoveBgOptions): RemoveBgApiOptions {
 }
 
 function getPost(options: RemoveBgOptions): any {
-  return unirest
-      .post(API_ENDPOINT)
+  const endpoint = options.apiEndpoint || process.env.REMOVE_BG_API_ENDPOINT || API_ENDPOINT;
+  const request = unirest
+      .post(endpoint)
       .header(API_KEY_HEADER, options.apiKey)
       .header("Accept", "application/json");
+  const headers = options.headers || {};
+  Object.keys(headers).forEach(name => request.header(name, headers[name]));
+  return request;
 }
 
 async function processResult(result, options: RemoveBgOptions, resolve, reject) {

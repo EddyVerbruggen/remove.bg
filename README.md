@@ -63,6 +63,22 @@ And the **output properties** are:
 | rateLimitReset | `number` | Unix timestamp when rate limit will reset.
 | retryAfter | `number` | Seconds until rate limit will reset (only present if rate limit exceeded).
 
+### Using a different endpoint
+remove.bg has announced that its self-service API stops on December 1, 2026. If you switch to a remove.bg API-compatible service (or route requests through a proxy), you can keep using this library by passing `apiEndpoint` and any extra `headers` the service needs:
+
+```typescript
+const result = await removeBackgroundFromImageUrl({
+  url: "https://example.com/image.jpg",
+  apiKey: "YOUR-API-KEY",
+  apiEndpoint: "https://example.com/v1.0/removebg",
+  headers: { "Authorization": "Bearer YOUR-TOKEN" },
+  size: "regular",
+  outputFile: "image.png"
+});
+```
+
+You can also set the `REMOVE_BG_API_ENDPOINT` environment variable instead. Without either, the official remove.bg endpoint is used, so existing code keeps working unchanged.
+
 ### `removeBackgroundFromImageFile`
 Remove the background from a local file.
 
